@@ -26,7 +26,7 @@ jobs:
       - name: 'Deploy to Azure WebApp'
         uses: azure/webapps-deploy@v2
         with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
           package: '.'
 
   loadTest:
@@ -48,21 +48,21 @@ jobs:
       - name: Create/Update Load Test
         uses: azure/arm-deploy@v1
         with:
-          resourceGroupName: ${{ env.LOAD_TEST_RESOURCE_GROUP }}
+          resourceGroupName: ${{ vars.LOAD_TEST_RESOURCE_GROUP }}
           template: ./ARMTemplate/template.json
-          parameters: ./ARMTemplate/parameters.json name=${{ env.LOAD_TEST_RESOURCE }} location="${{ env.LOCATION }}"
+          parameters: ./ARMTemplate/parameters.json name=${{ vars.LOAD_TEST_RESOURCE }} location="${{ vars.LOCATION }}"
           
       - name: 'Run Load Test'
         uses: azure/load-testing@v1
         with:
           loadTestConfigFile: 'SampleApp.yaml'
-          loadTestResource: ${{ env.LOAD_TEST_RESOURCE }}
-          resourceGroup: ${{ env.LOAD_TEST_RESOURCE_GROUP }}
+          loadTestResource: ${{ vars.LOAD_TEST_RESOURCE }}
+          resourceGroup: ${{ vars.LOAD_TEST_RESOURCE_GROUP }}
           env: |
             [
               {
               "name": "webapp",
-              "value": "${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
+              "value": "${{ vars.AZURE_WEBAPP_NAME }}.azurewebsites.net"
               }
             ]          
       
@@ -91,5 +91,5 @@ jobs:
       - name: 'Deploy to Azure WebApp'
         uses: azure/webapps-deploy@v2
         with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
           package: '.'

@@ -1,4 +1,4 @@
-name: Deploy and LoadTest
+name: Deployment Workflow
 
 on:
   push:

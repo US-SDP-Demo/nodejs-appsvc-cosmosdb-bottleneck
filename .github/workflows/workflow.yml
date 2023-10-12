@@ -69,7 +69,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: loadTestResults
-          path: ${{ github.workspace }}/loadTest
+          path: ${{ github.workspace }}/loadTest/results.zip
 
   promote-to-prod:
     name: 'Deploy to Production'
